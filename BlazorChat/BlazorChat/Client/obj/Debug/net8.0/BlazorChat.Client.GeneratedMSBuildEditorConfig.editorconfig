@@ -1,0 +1,83 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = BlazorChat.Client
+build_property.RootNamespace = BlazorChat.Client
+build_property.ProjectDir = C:\Users\andre\Desktop\MovieSphere-master\BlazorChat\BlazorChat\Client\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = false
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\andre\Desktop\MovieSphere-master\BlazorChat\BlazorChat\Client
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/andre/Desktop/MovieSphere-master/BlazorChat/BlazorChat/Client/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/andre/Desktop/MovieSphere-master/BlazorChat/BlazorChat/Client/Pages/Authentication.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aGVudGljYXRpb24ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/andre/Desktop/MovieSphere-master/BlazorChat/BlazorChat/Client/Pages/Chat.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2hhdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/andre/Desktop/MovieSphere-master/BlazorChat/BlazorChat/Client/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/andre/Desktop/MovieSphere-master/BlazorChat/BlazorChat/Client/Pages/Movies.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTW92aWVzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/andre/Desktop/MovieSphere-master/BlazorChat/BlazorChat/Client/Pages/Posts.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUG9zdHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/andre/Desktop/MovieSphere-master/BlazorChat/BlazorChat/Client/Shared/LoginDisplay.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXExvZ2luRGlzcGxheS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/andre/Desktop/MovieSphere-master/BlazorChat/BlazorChat/Client/Shared/RedirectToLogin.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFJlZGlyZWN0VG9Mb2dpbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/andre/Desktop/MovieSphere-master/BlazorChat/BlazorChat/Client/Shared/SurveyPrompt.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/andre/Desktop/MovieSphere-master/BlazorChat/BlazorChat/Client/UI/MovieCard.razor]
+build_metadata.AdditionalFiles.TargetPath = VUlcTW92aWVDYXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/andre/Desktop/MovieSphere-master/BlazorChat/BlazorChat/Client/UI/Paginator.razor]
+build_metadata.AdditionalFiles.TargetPath = VUlcUGFnaW5hdG9yLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/andre/Desktop/MovieSphere-master/BlazorChat/BlazorChat/Client/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/andre/Desktop/MovieSphere-master/BlazorChat/BlazorChat/Client/Pages/Movie.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTW92aWUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-mo9qldlf2u
+
+[C:/Users/andre/Desktop/MovieSphere-master/BlazorChat/BlazorChat/Client/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-t34rz2xab6
+
+[C:/Users/andre/Desktop/MovieSphere-master/BlazorChat/BlazorChat/Client/Shared/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-26jkhk4pjj

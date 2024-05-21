@@ -1,0 +1,119 @@
+﻿@page "/movie/{id:int}"
+@using BlazorChat.Models
+@using BlazorChat.Services
+@inject TMDBClient TMDB
+
+
+@if(movieDetails is null)
+{
+    <p><em>Loading the movie...</em></p>
+}
+else
+{
+   
+    <PageTitle>@movieDetails.Title</PageTitle>
+
+
+
+        <MudImage Src="@image" Fluid="true"/>
+
+    <MudGrid>
+        <MudItem xs="4" Class="d-flex align-center justify-center mud-width-full py-8">
+            @if (string.IsNullOrEmpty(movieDetails.PosterPath))
+            {
+                <img src="/images/PosterPlaceHolder.png" alt="Movie Poster" />
+            }
+            else
+            {
+                <MudImage Src="@($"https://image.tmdb.org/t/p/w500/{movieDetails.PosterPath}")" Alt="Movie Poster" Width="300" />
+
+            }
+        </MudItem>
+        <MudItem xs="8" Class=" justify-center mud-width-full py-8">
+            <MudText Typo="Typo.h4" Color="Color.Default" Style="padding-bottom:12px" > <MudElement HtmlTag="b" > @movieDetails.Title</MudElement> </MudText>
+            <MudText Typo="Typo.h5" Color="Color.Default" Style="padding-bottom:12px"> <MudElement HtmlTag="b"> @movieDetails.Tagline</MudElement></MudText>
+            @if (DateTime.TryParse(movieDetails.ReleaseDate, out DateTime releaseDate))
+            {
+                <MudChip> @releaseDate.ToString("MMM dd yyy")</MudChip>     
+            }
+            @{
+                var runtime = $"{movieDetails.Runtime / 60}h {movieDetails.Runtime % 60}m";
+                var rating = (movieDetails.VoteAverage * 10).ToString("F1");
+            }
+            <MudChip Color="Color.Info">  @runtime</MudChip>
+
+            <MudChip Color="Color.Success">  @rating% <MudIcon Icon="@Icons.Material.Filled.Stars" Color="Color.Warning"/> </MudChip>
+
+          
+
+           <MudSpacer ></MudSpacer>
+
+
+            @if (!string.IsNullOrEmpty(movieDetails.Homepage))
+            {
+                <MudButton Variant="Variant.Outlined" Href="@movieDetails.Homepage">  Website </MudButton>
+            }
+
+            @if (!string.IsNullOrEmpty(movieDetails.ImdbId))
+            {
+                <MudButton Variant="Variant.Outlined" Color="Color.Warning" Href="@($"https://www.imdb.com/title/{movieDetails.ImdbId}")">  IMDB </MudButton>
+            }
+
+            <MudSpacer></MudSpacer>
+
+
+            @{
+                foreach (var genres in movieDetails.Genres)
+                {
+                    <MudChip Color="Color.Info">  @genres.Name </MudChip>
+                }
+            }
+          
+
+
+
+        </MudItem>
+        <MudItem xs="12" Class="d-flex align-center justify-center mud-width-full py-8">
+
+
+
+            <MudText> Overview:  @movieDetails.Overview  </MudText>
+
+          
+
+           
+        </MudItem>
+
+        <MudItem xs="12" Class="d-flex align-center justify-center mud-width-full py-8">
+            @if (movieDetails.SpokenLanguages.Any())
+            {
+                <div>
+                    Languages: @string.Join(", ", movieDetails.SpokenLanguages.Select(sl => sl.EnglishName))
+                </div>
+            }
+        </MudItem>
+
+    </MudGrid>
+
+
+    
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    public string image { get; set; }
+
+
+    private MovieDetails movieDetails;
+
+    protected override async Task OnInitializedAsync()
+    {
+        movieDetails = await TMDB.GetMovieDetailsAsync(Id);
+
+        image = "https://image.tmdb.org/t/p/original" + movieDetails.BackdropPath;
+
+
+    }
+
+}

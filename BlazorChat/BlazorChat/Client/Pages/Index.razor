@@ -1,0 +1,122 @@
+﻿@page "/home"
+@page "/"
+@inject TMDBClient TMDB
+@inject NavigationManager Nav
+@using System.Security.Claims;
+@using BlazorChat.Client.UI
+@using BlazorChat.Models
+@using BlazorChat.Services
+
+
+
+<MudText Style="color:white" Typo="Typo.h2">MovieSphere</MudText>
+<MudText Style="padding-bottom:5vh;color:white">Welcome to MovieSphere! Explore the top rated and latest movies.</MudText>
+
+
+<div class="d-flex flex-column px-4" style="margin:initial; outline:auto; overflow:scroll; min-width:50vh; max-width:90%; max-height:55vh; padding-bottom:5vh;" id="chatContainer">
+
+
+
+    <MudText Style="padding-bottom:2vh; padding-top:2vh;;color:white" Typo="Typo.h5">Now Playing Movies</MudText>
+
+        <MudGrid Spacing="10" Justify="Justify.Center" >
+            @if (nowplayingMovies is not null)
+            {
+                @foreach (PopularMovie movie in nowplayingMovies.Results)
+                {
+
+                <MudItem xs="3" Style="padding-bottom:10vh;color:white">
+                        <MovieCard Movie="movie" />
+                    </MudItem>
+
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    <MudItem>
+                        <MovieCard />
+                    </MudItem>
+                }
+            }
+
+
+        </MudGrid>
+
+</div>
+
+
+<div class="d-flex flex-column px-4" style="margin:initial; outline:auto;  overflow:scroll; min-width:50vh; max-width:90%;  max-height:55vh; padding-bottom:5vh;" id="chatContainer">
+
+
+
+    <MudText Style="padding-bottom:2vh; padding-top:2vh;color:white" Typo="Typo.h5">Top Rated Movies</MudText>
+
+    <MudGrid Spacing="10" Justify="Justify.Center">
+        @if (topRatedMovies is not null)
+        {
+            @foreach (PopularMovie movie in topRatedMovies.Results)
+            {
+
+                <MudItem xs="3" Style="padding-bottom:10vh;color:white">
+                    <MovieCard Movie="movie" />
+                </MudItem>
+
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                <MudItem>
+                    <MovieCard />
+                </MudItem>
+            }
+        }
+
+
+    </MudGrid>
+
+
+
+
+</div>
+
+<div class="d-flex flex-column px-4" style="margin:initial; outline:auto;  overflow:scroll; min-width:50vh; max-width:90%;  max-height:55vh; padding-bottom:5vh;" id="chatContainer">
+
+
+
+    <MudText Style="padding-bottom:2vh; padding-top:2vh;;color:white" Typo="Typo.h5">Upcoming Movies</MudText>
+
+    <MudGrid Spacing="10" Justify="Justify.Center">
+        @if (upcomingMovies is not null)
+        {
+            @foreach (PopularMovie movie in upcomingMovies.Results)
+            {
+
+                <MudItem xs="3" Style="padding-bottom:10vh;color:white">
+                    <MovieCard Movie="movie" />
+                </MudItem>
+
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                <MudItem>
+                    <MovieCard />
+                </MudItem>
+            }
+        }
+
+
+    </MudGrid>
+
+
+
+
+</div>
+
+

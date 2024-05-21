@@ -1,0 +1,152 @@
+﻿@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.SignalR.Client;
+@using System.Security.Claims
+<audio id="notification" src="/media/notification.mp3" />
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<MudLayout >
+    <MudAppBar Elevation="0">
+        <MudButton Color="Color.Info"  Class="ml-4" IconSize="Size.Small" Size="Size.Large" OnClick="@((e) => _navigationManager.NavigateTo($"/"))">MovieSphere</MudButton>
+        <MudButton Color="Color.Secondary" OnClick="@((e) => _navigationManager.NavigateTo($"movies"))" Class="ml-4">Movies</MudButton>
+        <MudButton Color="Color.Secondary" OnClick="@((e) => ChatButton())" Class="ml-4">Chat</MudButton>
+        <MudButton Color="Color.Secondary" OnClick="@((e) => PostsButton())" Class="ml-4">Posts</MudButton>
+        <MudSpacer />
+        <LoginDisplay />
+    </MudAppBar>
+    <MudMainContent Style="background-color:rgba(0, 0, 102)">
+        <CascadingValue Value="hubConnection">
+            @Body
+        </CascadingValue>
+    </MudMainContent>
+</MudLayout>
+@code {
+    bool _drawerOpen = false;
+    private string CurrentUserId { get; set; }
+
+
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    void ChatButton()
+    {
+        if(CurrentUserId == null)
+        {
+            _navigationManager.NavigateTo($"authentication/login");
+        }
+        else
+        {
+            _navigationManager.NavigateTo($"chat");
+        }
+    }
+
+    void PostsButton()
+    {
+        if (CurrentUserId == null)
+        {
+            _navigationManager.NavigateTo($"authentication/login");
+        }
+        else
+        {
+            _navigationManager.NavigateTo($"posts");
+        }
+    }
+
+
+
+
+    bool authenticated;
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+
+
+
+
+
+    private HubConnection hubConnection;
+    public bool IsConnected => hubConnection.State == HubConnectionState.Connected;
+    protected override async Task OnInitializedAsync()
+    {
+
+
+        Task<AuthenticationState> _currentAuthenticationStateTask;
+
+        _stateProvider.AuthenticationStateChanged += OnAuthenticationStateChanged;
+
+        _currentAuthenticationStateTask = _stateProvider.GetAuthenticationStateAsync();
+
+        OnAuthenticationStateChanged(_currentAuthenticationStateTask);
+
+
+
+
+
+
+        hubConnection = new HubConnectionBuilder().WithUrl(_navigationManager.ToAbsoluteUri("/signalRHub")).Build();
+        await hubConnection.StartAsync();
+        hubConnection.On<string, string, string>("ReceiveChatNotification", (message, receiverUserId, senderUserId) =>
+        {
+            if (CurrentUserId == receiverUserId)
+            {
+                _jsRuntime.InvokeAsync<string>("PlayAudio", "notification");
+                _snackBar.Add(message, Severity.Info, config =>
+                                {
+                                    config.VisibleStateDuration = 10000;
+                                    config.HideTransitionDuration = 500;
+                                    config.ShowTransitionDuration = 500;
+                                    config.Action = "Chat";
+                                    config.ActionColor = Color.Info;
+                                    config.Onclick = snackbar =>
+                            {
+                        _navigationManager.NavigateTo($"chat/{senderUserId}");
+                        return Task.CompletedTask;
+                    };
+                                });
+            }
+        });
+        var state = await _stateProvider.GetAuthenticationStateAsync();
+        var user = state.User;
+
+    }
+
+
+
+
+    private void OnAuthenticationStateChanged
+                 (Task<AuthenticationState> authenticationStateTask)
+    {
+        _ = InvokeAsync(async () =>
+        {
+            var authState = await authenticationStateTask;
+            var user = authState.User;
+
+
+            authenticated = user.Identity?.IsAuthenticated ?? false;
+            CurrentUserId = user.Claims.Where(a => a.Type == "sub").Select(a => a.Value).FirstOrDefault();
+            StateHasChanged();
+        });
+    }
+
+
+    MudTheme movieTheme = new MudTheme()
+        {
+            Palette = new Palette()
+            {
+                Primary = "#000000", // Black primary color
+                Secondary = "#FF0000", // Red secondary color
+                Background = "#010101", // Dark background color
+                AppbarBackground = "#111111", // Dark app bar background color
+                DrawerBackground = "#111111", // Dark drawer background color
+                DrawerText = "#FFFFFF" // White drawer text color
+            }
+        };
+
+
+
+
+}

@@ -1,0 +1,190 @@
+﻿@page "/movies"
+@using BlazorChat.Client.UI
+@using BlazorChat.Models
+@using BlazorChat.Services
+@inject TMDBClient TMDB
+@inject NavigationManager Nav
+
+<MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+
+
+    <MudTabPanel Text="Now Playing" >
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+
+            <MudGrid Spacing="10" Justify="Justify.Center">
+                @if ( nowplayingMovies is not null)
+                {
+                    @foreach (PopularMovie movie in nowplayingMovies.Results)
+                    {
+                        <MudItem Style="color:white">
+                            <MovieCard Movie="movie" />
+                        </MudItem>
+
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 10; i++)
+                    {
+                        <MudItem>
+                            <MovieCard />
+                        </MudItem>
+                    }
+                }
+
+
+            </MudGrid>
+
+            @if (nowplayingMovies?.TotalPages > 1)
+            {
+                <div class="my-3" style="padding-top:8vh; padding-bottom:3vh;" >
+                    <Paginator CurrentPage="nowplayingMovies.Page"
+                     
+                               TotalPages="nowplayingMovies.TotalPages > 500 ? 500 : nowplayingMovies.TotalPages"
+                               OnPageChange="GetNowPlayingPage" />
+                </div>
+            }
+
+        </MudContainer>
+    </MudTabPanel>
+    <MudTabPanel Text="Popular Movies" >
+
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+
+            <MudGrid Spacing="10" Justify="Justify.Center">
+                @if (movies is not null)
+                {
+                    @foreach (PopularMovie movie in movies.Results)
+                    {
+                        <MudItem Style="color:white">
+                            <MovieCard Movie="movie" />
+                        </MudItem>
+
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 10; i++)
+                    {
+                        <MudItem>
+                            <MovieCard />
+                        </MudItem>
+                    }
+                }
+
+
+            </MudGrid>
+
+            @if (movies?.TotalPages > 1)
+            {
+                <div class="my-3" style="padding-top:8vh; padding-bottom:3vh;">
+                    <Paginator CurrentPage="movies.Page"
+                               TotalPages="movies.TotalPages > 500 ? 500 : movies.TotalPages"
+                               OnPageChange="GetPage" />
+                </div>
+            }
+
+        </MudContainer>
+
+    </MudTabPanel>
+    <MudTabPanel Text="Upcoming Movies" @* OnClick="@(()=> Movieupcoming())" *@>
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+
+            <MudGrid Spacing="10" Justify="Justify.Center">
+                @if (upcomingMovies is not null)
+                {
+                    @foreach (PopularMovie movie in upcomingMovies.Results)
+                    {
+                        <MudItem Style="color:white">
+                            <MovieCard Movie="movie" />
+                        </MudItem>
+
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 10; i++)
+                    {
+                        <MudItem>
+                            <MovieCard />
+                        </MudItem>
+                    }
+                }
+
+
+            </MudGrid>
+
+            @if (upcomingMovies?.TotalPages > 1)
+            {
+                <div class="my-3" style="padding-top:8vh; padding-bottom:3vh;">
+                    <Paginator CurrentPage="upcomingMovies.Page"
+                               TotalPages="upcomingMovies.TotalPages > 500 ? 500 : upcomingMovies.TotalPages"
+                               OnPageChange="GetUpcomingPage" />
+                </div>
+            }
+
+        </MudContainer>
+    </MudTabPanel>
+    <MudTabPanel Text="Search">
+        <div style="padding-bottom:5vh;">
+        <MudPaper Style="background-color:cornflowerblue" >
+            
+        <MudAutocomplete T="string" Label="Search by Title"  @bind-Value="value2" SearchFunc="@Search2"  Style="padding-bottom:2vh;"
+                         ResetValueOnEmptyText="@resetValueOnEmptyText"
+                         CoerceText="@coerceText" CoerceValue="@coerceValue"
+                         AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+            
+        </MudPaper>
+        </div>
+
+        @if (value2 != null && update)
+        {
+
+            <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+
+                <MudGrid Spacing="10" Justify="Justify.Center">
+                    @if (movieName is not null)
+                    {
+                        @foreach (PopularMovie movie in movieName.Results)
+                        {
+                            <MudItem Style="color:white">
+                                <MovieCard Movie="movie" />
+                            </MudItem>
+
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 10; i++)
+                        {
+                            <MudItem>
+                                <MovieCard />
+                            </MudItem>
+                        }
+                    }
+
+
+                </MudGrid>
+
+                @if (movieName?.TotalPages > 1)
+                {
+                    <div class="my-3" style="padding-top:8vh; padding-bottom:3vh;">
+                        <Paginator CurrentPage="movieName.Page"
+                                   TotalPages="movieName.TotalPages > 500 ? 500 : movieName.TotalPages"
+                                   OnPageChange="GetSearchPage" />
+                    </div>
+                }
+
+
+
+            </MudContainer>
+
+        }
+    </MudTabPanel>
+    
+</MudTabs>
+
+
+
+
+

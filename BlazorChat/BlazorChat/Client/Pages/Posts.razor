@@ -1,0 +1,233 @@
+﻿@page "/posts"
+@using System.IO
+
+
+
+<div class="d-flex flex-column px-4" style="margin:auto;  max-width:65vh; min-width:65vh; padding-bottom:5vh;" id="chatContainer">
+
+    <MudCard>
+        <MudCardHeader>
+            <CardHeaderAvatar>
+                @if (string.IsNullOrEmpty(CurrentUserId))
+                {
+                    <MudAvatar Color="Color.Secondary" Style="height:50px; width:50px;">P</MudAvatar>
+              
+                }
+                else
+                {
+                    <MudAvatar Color="Color.Secondary" Style="height:50px; width:50px;">@CurrentUsername.ToUpper().FirstOrDefault()</MudAvatar>
+
+
+                }
+            </CardHeaderAvatar>
+             <CardHeaderContent>
+                @if (string.IsNullOrEmpty(CurrentUserId))
+                {
+                   
+                    <MudText Typo="Typo.h6">Person</MudText>
+                }
+                else
+                {
+                   
+                    <MudText Typo="Typo.h6">@CurrentUsername</MudText>
+                }
+
+            </CardHeaderContent> 
+            <CardHeaderActions>
+                <MudButton OnClick="@((e) =>LoadAllPosts())" Color="Color.Default" StartIcon="@Icons.Material.Filled.Home"> Home </MudButton>
+                    
+                <MudButton OnClick="@((e) =>LoadOwnPosts())" Color="Color.Default" StartIcon="@Icons.Material.Filled.Person"> My Posts </MudButton>
+            </CardHeaderActions>
+        </MudCardHeader>
+        <MudCardContent>
+           
+            @if (uploadedImage != null)
+            {
+                    
+                    <MudCardMedia Image="@uploadedImage" />
+               
+            }
+
+            <MudGrid Spacing="2" Justify="Justify.Center" Style="padding-top:2vh;">
+
+                <MudItem xs="12">
+                    <MudTextField  T="string" Placeholder="Create your Post!" DisableUnderLine="true" AutoGrow MaxLines="8" Class="mt-n2 mx-4"
+                                  @bind-Value="CurrentMessage" For="@(()=> CurrentMessage)" />
+
+                </MudItem>
+                <MudItem xs="6">
+                    <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+                        <ButtonTemplate>
+                            <MudFab HtmlTag="label"
+                                    Color="Color.Secondary"
+                                    Icon="@Icons.Material.Filled.Image"
+                                    Label="Load Image"
+                                    for="@context.Id" />
+                        </ButtonTemplate>
+                    </MudFileUpload>
+                </MudItem>
+                <MudItem xs="3" Style="padding-top:1.5vh;">
+                    <MudFab HtmlTag="label"
+
+                            Color="Color.Secondary"
+                            Icon="@Icons.Material.Filled.Send"
+                            Label="SEND"
+                            OnClick="SubmitPostAsync" />
+
+
+                </MudItem>
+            </MudGrid>
+
+
+
+        </MudCardContent>
+
+    </MudCard>
+
+   
+</div>
+
+
+   
+        
+        @foreach(var post in postMessages)
+        {
+
+
+
+
+            <div class="d-flex flex-column px-4" style="max-height:65vh;min-height:30vh;  max-width:65vh; min-width:65vh; margin:auto; overflow:scroll; padding-bottom:1vh" id="chatContainer">
+
+
+
+                <div style="padding-bottom:1vh;">
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Color="Color.Secondary">@post.FromUserId.ToUpper().FirstOrDefault()</MudAvatar>
+                            </CardHeaderAvatar>
+                        <CardHeaderContent>
+                                <MudText Typo="Typo.h6">@post.UserName</MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                                <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Default" />
+                            </CardHeaderActions>
+                        </MudCardHeader>
+             
+               
+                        <MudCardContent>
+                            <MudText Style="padding-bottom:2vh;"  Typo="Typo.body2">@post.Message</MudText>
+
+                        @if (post.Image != null)
+                        {
+                            <MudCardMedia Image="@post.Image" Height="250" />
+                        }
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudIconButton Icon="@Icons.Material.Filled.Favorite" Color="Color.Default" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Share" Color="Color.Default" />
+                        </MudCardActions>
+                    </MudCard>
+
+
+                    <div style="padding-top:1vh;">
+
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    @if (string.IsNullOrEmpty(CurrentUserId))
+                                    {
+                                        <MudAvatar Color="Color.Secondary" Style="height:50px; width:50px;">P</MudAvatar>
+
+                                    }
+                                    else
+                                    {
+                                        <MudAvatar Color="Color.Secondary" Style="height:50px; width:50px;">@CurrentUsername.ToUpper().FirstOrDefault()</MudAvatar>
+
+
+                                    }
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    @if (string.IsNullOrEmpty(CurrentUserId))
+                                    {
+
+                                        <MudText Typo="Typo.h6">Person</MudText>
+                                    }
+                                    else
+                                    {
+
+                                        <MudText Typo="Typo.h6">@CurrentUsername</MudText>
+                                    }
+   
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+
+                                <MudGrid Spacing="2" Justify="Justify.Center" Style="padding-top:2vh;">
+
+                                    <MudItem xs="12">
+                                        <MudTextField T="string" Placeholder="Create your Comment!" DisableUnderLine="true" AutoGrow MaxLines="8" Class="mt-n2 mx-4"
+                                                          @bind-Value="CurrentCommentMessage" For="@(()=> CurrentCommentMessage)" />
+
+                                    </MudItem>
+                                    <MudItem xs="3" Style="padding-top:1.5vh;">
+                                        <MudFab HtmlTag="label"
+                                                Color="Color.Secondary"
+                                                Icon="@Icons.Material.Filled.Send"
+                                                Label="SEND"
+                                                    OnClick="@(()=> SubmitCommentAsync(post.Id))" />
+                                   
+
+                                    </MudItem>
+                                </MudGrid>
+
+
+
+                            </MudCardContent>
+                 
+                        </MudCard>
+
+                    </div>
+
+
+
+
+                </div>
+
+
+
+            @foreach(var comment in commentsMessages)
+            {
+                
+                if(comment.PostMessageId == post.Id)
+                {
+                    @* comments *@
+                    <div style="padding-bottom:1vh;">
+
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Secondary">@comment.UserName.ToUpper().FirstOrDefault()</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.h6">@comment.UserName</MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudText Typo="Typo.body2">@comment.Message</MudText>
+                            </MudCardContent>
+                        </MudCard>
+
+                    </div>
+
+                }
+
+            }
+
+
+            </div>
+
+
+        }
+
+

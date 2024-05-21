@@ -1,0 +1,50 @@
+﻿
+
+ <MudGrid Spacing="10" Justify="Justify.Center">
+
+<MudButton OnClick="PrevPage" Size="Size.Large"> <MudIcon Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Secondary" />  </MudButton>
+
+    <MudText Style="padding-top:0.5vh;" Color="Color.Secondary">  @CurrentPage Page  @TotalPages </MudText>
+
+    <MudButton OnClick="NextPage"> <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Color="Color.Secondary" />  </MudButton>
+
+
+</MudGrid>
+
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public int CurrentPage { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public int TotalPages { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnPageChange { get; set; }
+
+    private async Task PageChanged(int i)
+    {
+        await OnPageChange.InvokeAsync(CurrentPage);
+    }
+
+    private async Task NextPage()
+    {
+        if (CurrentPage < TotalPages)
+        {
+            CurrentPage++;
+            await OnPageChange.InvokeAsync(CurrentPage);
+        }
+    }
+
+    private async Task PrevPage()
+    {
+        if (CurrentPage > 1)
+        {
+            CurrentPage--;
+            await OnPageChange.InvokeAsync(CurrentPage);
+        }
+    }
+
+}
